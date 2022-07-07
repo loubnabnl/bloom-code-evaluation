@@ -42,14 +42,16 @@ OUTPUT_FILE3=$STORE_GENERATIONS_FOLDER/task_${TASK_START}_${TASK_END}/output_3
 
 echo using $MODEL_CKPT as model checkpoint, if not done change it to a local repository
 
-WORKDIR=/gpfswork/rech/six/commun/code/thomas/bloom-code-evaluation
+WORKDIR=/gpfsscratch/rech/six/commun/commun/experiments/muennighoff/bloom-code-evaluation
 pushd $WORKDIR
+
+export CUDA_LAUNCH_BLOCKING=1
 
 python code_eval.py --model_ckpt $MODEL_CKPT \
 	--batch_size 1 \
 	--do_sample True \
-	--task_start_id $TASK_START \
-	--task_end_id $TASK_END \
+	--task_start $TASK_START \
+	--task_end $TASK_END \
 	--temperature 0.2 \
 	--top_p 0.95 \
 	--n_samples 200 \
@@ -58,8 +60,8 @@ python code_eval.py --model_ckpt $MODEL_CKPT \
 python code_eval.py --model_ckpt $MODEL_CKPT \
 	--batch_size 1 \
 	--do_sample True \
-	--task_start_id $TASK_START \
-        --task_end_id $TASK_END \
+	--task_start $TASK_START \
+	--task_end $TASK_END \
 	--temperature 0.6 \
 	--top_p 0.95 \
 	--n_samples 200 \
@@ -68,8 +70,8 @@ python code_eval.py --model_ckpt $MODEL_CKPT \
 python code_eval.py --model_ckpt $MODEL_CKPT \
 	--batch_size 1 \
 	--do_sample True \
-	--task_start_id $TASK_START \
-        --task_end_id $TASK_END \
+	--task_start $TASK_START \
+	--task_end $TASK_END \
 	--temperature 0.8 \
 	--top_p 0.95 \
 	--n_samples 200 \

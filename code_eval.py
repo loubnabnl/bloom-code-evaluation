@@ -6,6 +6,7 @@ import re
 from datasets import load_dataset
 from tqdm import tqdm
 
+import torch
 import transformers
 from arguments import HumanEvalArguments
 from transformers import (
@@ -14,7 +15,6 @@ from transformers import (
     HfArgumentParser,
     StoppingCriteria,
     StoppingCriteriaList,
-    pipeline,
     set_seed,
 )
 
@@ -60,7 +60,12 @@ def get_args():
     parser = HfArgumentParser(HumanEvalArguments)
     parser.add_argument("--task_start", type=int, required=True)
     parser.add_argument("--task_end", type=int, required=True)
+    parser.add_argument("--max_memory_per_gpu", type=str, default="50GB")
     return parser.parse_args()
+
+def get_gpus_max_memory(max_memory):
+    max_memory = {i: max_memory for i in range(torch.cuda.device_count())}
+    return max_memory
 
 def main():
     # Setup configuration
@@ -75,9 +80,15 @@ def main():
 
     set_seed(args.seed)
 
-    print("loading tokenizer and model")
+    print("loading tokenizer and model in bfloat16")
     tokenizer = AutoTokenizer.from_pretrained(args.model_ckpt)
-    model = AutoModelForCausalLM.from_pretrained(args.model_ckpt, device_map="auto", torch_dtype="auto")
+    model = AutoModelForCausalLM.from_pretrained(
+        args.model_ckpt, 
+        device_map="auto", 
+        torch_dtype=torch.bfloat16,
+        max_memory=get_gpus_max_memory(args.max_memory_per_gpu),
+        offload_folder="offload"
+    )
     print("model loaded")
 
     # Generation settings
