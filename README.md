@@ -16,8 +16,8 @@ The following commands generate code for each experiment/`temperature`, you can 
 export HF_DATASETS_OFFLINE=1
 
 OUTPUT_file1=code_generations_exp1
-OUTPUT_file2=code_generations_exp1
-OUTPUT_file3=code_generations_exp1
+OUTPUT_file2=code_generations_exp2
+OUTPUT_file3=code_generations_exp3
 
 MODEL_CKPT=bigscience/bloom
 echo using $MODEL_CKPT as model checkpoint, if not done change it to a local repository
