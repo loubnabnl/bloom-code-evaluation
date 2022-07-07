@@ -77,7 +77,7 @@ def main():
 
     print("loading tokenizer and model")
     tokenizer = AutoTokenizer.from_pretrained(args.model_ckpt)
-    model = AutoModelForCausalLM.from_pretrained(args.model_ckpt, device_map="auto", max_memory="30GB", max_cpu_memory="300GB", torch_dtype="auto")
+    model = AutoModelForCausalLM.from_pretrained(args.model_ckpt, device_map="auto", torch_dtype="auto")
     print("model loaded")
 
     # Generation settings
