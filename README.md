@@ -10,7 +10,7 @@ bash setup.sh
 ```
 
 ### Code generation
-The following command generate code for each experiment/`temperature`, you can increase the batch size if you have enough memory. This outputs two files `generations.json`and `references.json` placed in the corresponding `output_file`. You can also change `MODEL_CKPT` to a local repository to load it offline.
+The following commands generate code for each experiment/`temperature`, you can increase the batch size if you have enough memory. This outputs two files `generations.json`and `references.json` placed in the corresponding `output_file`. You can also change `MODEL_CKPT` to a local repository to load it offline.
 
 ```
 export HF_DATASETS_OFFLINE=1
