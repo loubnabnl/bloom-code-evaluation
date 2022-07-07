@@ -40,3 +40,6 @@ class HumanEvalArguments:
             )
         },
     )
+    HF_ALLOW_CODE_EVAL: Optional[str] = field(
+        default="0", metadata={"help": "Allow `code_eval` to execute Python code on machine"}
+    )
