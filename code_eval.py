@@ -56,10 +56,15 @@ def complete_code(model, tokenizer, prompt, num_completions=1, **gen_kwargs):
 
     return [first_block(code_gen[len(prompt) :]) for code_gen in code_gens]
 
+def get_args():
+    parser = HfArgumentParser(HumanEvalArguments)
+    parser.add_argument("--task_start", type=int, required=True)
+    parser.add_argument("--task_end", type=int, required=True)
+    return parser.parse_args()
+
 def main():
     # Setup configuration
-    parser = HfArgumentParser(HumanEvalArguments)
-    args = parser.parse_args()
+    args = get_args()
 
     transformers.logging.set_verbosity_error()
     # make sure tokenizer plays nice with multiprocessing
@@ -89,10 +94,9 @@ def main():
     human_eval = load_dataset("openai_humaneval")
 
     # Generate completions for evaluation set
-    n_tasks = args.num_tasks if args.num_tasks is not None else len(human_eval["test"])
     print("Starting code generation")
     generations, references = [], []
-    for task in tqdm(range(n_tasks)):
+    for task in tqdm(range(args.task_start, args.task_end)):
         task_generations = []
         prompt = human_eval["test"][task]["prompt"].strip()
         gen_kwargs["stopping_criteria"][0].start_length = len(tokenizer(prompt)["input_ids"])
