@@ -56,10 +56,15 @@ def complete_code(model, tokenizer, prompt, num_completions=1, **gen_kwargs):
 
     return [first_block(code_gen[len(prompt) :]) for code_gen in code_gens]
 
+def get_gpus_max_memory(max_memory):
+    max_memory = {i: max_memory for i in range(torch.cuda.device_count())}
+    return max_memory
+
 def get_args():
     parser = HfArgumentParser(HumanEvalArguments)
     parser.add_argument("--task_start", type=int, required=True)
     parser.add_argument("--task_end", type=int, required=True)
+    parser.add_argument("--max_memory_per_gpu", type=str, default="50GB")
     return parser.parse_args()
 
 def main():
@@ -77,7 +82,7 @@ def main():
 
     print("loading tokenizer and model")
     tokenizer = AutoTokenizer.from_pretrained(args.model_ckpt)
-    model = AutoModelForCausalLM.from_pretrained(args.model_ckpt, device_map="auto", torch_dtype="auto")
+    model = AutoModelForCausalLM.from_pretrained(args.model_ckpt, device_map="auto", torch_dtype="auto", max_memory=get_gpus_max_memory(args.max_memory_per_gpu))
     print("model loaded")
 
     # Generation settings
