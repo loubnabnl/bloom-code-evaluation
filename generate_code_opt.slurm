@@ -31,11 +31,11 @@ export HF_METRICS_CACHE=$six_ALL_CCFRWORK/metrics
 
 NUM_TASKS=164
 NUM_TASKS_PER_JOB=1
-
-TASK_START=$(expr $SLURM_ARRAY_TASK_ID \* $NUM_TASKS_PER_JOB )
+# SLURM starts at 1, but we make it start at 0 for indexing purposes
+TASK_START=$(expr ($SLURM_ARRAY_TASK_ID - 1) \* $NUM_TASKS_PER_JOB )
 TASK_END=$(expr $TASK_START + $NUM_TASKS_PER_JOB )
 
-STORE_GENERATIONS_FOLDER=/gpfswork/rech/six/commun/code_generations
+STORE_GENERATIONS_FOLDER=/gpfswork/rech/six/commun/code_generations_opt
 OUTPUT_FILE1=$STORE_GENERATIONS_FOLDER/task_${TASK_START}_${TASK_END}/output_1
 OUTPUT_FILE2=$STORE_GENERATIONS_FOLDER/task_${TASK_START}_${TASK_END}/output_2
 OUTPUT_FILE3=$STORE_GENERATIONS_FOLDER/task_${TASK_START}_${TASK_END}/output_3
