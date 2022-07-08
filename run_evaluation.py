@@ -2,10 +2,8 @@ import json
 import multiprocessing
 import os
 
-from datasets import  load_metric
-from tqdm import tqdm
-
 from arguments import HumanEvalArguments
+from datasets import  load_metric
 from transformers import HfArgumentParser
 
 def main():
