@@ -20,9 +20,9 @@ def merge_generations(output_folder, num_tasks):
 
     #fill each list with the generations and references of each experiment
     for task in range(1, num_tasks + 1):
-        task_path_exp1 = f"bloom/task_{task}_{task+1}/output_1"
-        task_path_exp2 = f"bloom/task_{task}_{task+1}/output_2"
-        task_path_exp3 = f"bloom/task_{task}_{task+1}/output_3"
+        task_path_exp1 = f"{output_folder}/task_{task}_{task+1}/output_1"
+        task_path_exp2 = f"{output_folder}/task_{task}_{task+1}/output_2"
+        task_path_exp3 = f"{output_folder}/task_{task}_{task+1}/output_3"
 
         with open(f"{task_path_exp1}/generations.json") as f:
             # list of a list with 200 generations
