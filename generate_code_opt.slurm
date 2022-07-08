@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=bs-code-generation-bloom-176b
+#SBATCH --job-name=bs-code-generation-opt-175b
 #SBATCH --partition=gpu_p5
 #SBATCH --constraint=a100
 #SBATCH --reservation=hug
@@ -19,7 +19,7 @@ conda activate thomas_code_evaluation
 
 echo "START TIME: $(date)"
 
-MODEL_CKPT=/gpfsscratch/rech/six/commun/uan68tv-model-conversion/bloom
+MODEL_CKPT=/gpfsscratch/rech/six/commun/opt/opt-175b
 
 export HF_DATASETS_OFFLINE=1
 export TRANSFORMERS_OFFLINE=1
@@ -55,7 +55,7 @@ python code_eval.py --model_ckpt $MODEL_CKPT \
 	--temperature 0.2 \
 	--top_p 0.95 \
 	--n_samples 200 \
-	--dtype bfloat16 \
+    --dtype float16 \
 	--output_file $OUTPUT_FILE1
 
 python code_eval.py --model_ckpt $MODEL_CKPT \
@@ -66,7 +66,7 @@ python code_eval.py --model_ckpt $MODEL_CKPT \
 	--temperature 0.6 \
 	--top_p 0.95 \
 	--n_samples 200 \
-	--dtype bfloat16 \
+    --dtype float16 \
 	--output_file $OUTPUT_FILE2
 
 python code_eval.py --model_ckpt $MODEL_CKPT \
@@ -77,6 +77,6 @@ python code_eval.py --model_ckpt $MODEL_CKPT \
 	--temperature 0.8 \
 	--top_p 0.95 \
 	--n_samples 200 \
-	--dtype bfloat16 \
-	--output_file $OUTPUT_FILE3
+    --dtype float16 \
+    --output_file $OUTPUT_FILE3
 

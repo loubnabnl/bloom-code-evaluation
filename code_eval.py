@@ -60,6 +60,7 @@ def get_args():
     parser = HfArgumentParser(HumanEvalArguments)
     parser.add_argument("--task_start", type=int, required=True)
     parser.add_argument("--task_end", type=int, required=True)
+    parser.add_argument("--dtype", type=str, required=True)
     parser.add_argument("--max_memory_per_gpu", type=str, default="50GB")
     return parser.parse_args()
 
@@ -80,14 +81,14 @@ def main():
 
     set_seed(args.seed)
 
-    print("loading tokenizer and model in bfloat16")
+    print(f"loading tokenizer and model in {args.dtype}")
     tokenizer = AutoTokenizer.from_pretrained(args.model_ckpt)
     model = AutoModelForCausalLM.from_pretrained(
         args.model_ckpt, 
         device_map="auto", 
-        torch_dtype=torch.bfloat16,
+        torch_dtype=getattr(torch, args.dtype),
         max_memory=get_gpus_max_memory(args.max_memory_per_gpu),
-        offload_folder="offload"
+        offload_folder="offload",
     )
     print("model loaded")
 
