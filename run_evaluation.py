@@ -19,7 +19,7 @@ def merge_generations(output_folder, num_tasks):
     references_exp3 = []
 
     #fill each list with the generations and references of each experiment
-    for task in range(1, num_tasks + 1):
+    for task in range(0, num_tasks):
         task_path_exp1 = f"{output_folder}/task_{task}_{task+1}/output_1"
         task_path_exp2 = f"{output_folder}/task_{task}_{task+1}/output_2"
         task_path_exp3 = f"{output_folder}/task_{task}_{task+1}/output_3"
