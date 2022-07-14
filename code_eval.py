@@ -127,7 +127,9 @@ def main():
     os.makedirs(args.output_file, exist_ok=True)
     reference_file = f"{args.output_file}/references.json"
     generation_file = f"{args.output_file}/generations.json"
-
+    
+    if os.path.exists(generation_file):
+        raise ValueError(f"Not overwriting existing path: {generation_file}.")
     with open(reference_file, "w") as fp:
         json.dump(references, fp)
     with open(generation_file, "w") as fp:
