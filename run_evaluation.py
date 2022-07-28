@@ -2,7 +2,7 @@ import json
 import multiprocessing
 import os
 
-from datasets import  load_metric
+from datasets import load_metric
 from transformers import HfArgumentParser
 
 from arguments import HumanEvalArguments
