@@ -27,6 +27,7 @@ def merge_generations(output_folder, num_tasks):
         with open(f"{task_path_exp1}/generations.json") as f:
             # list of a list with 200 generations
             gens = json.load(f)
+            gens = [[gen.strip("</s>") for gen in task_gens] for task_gens in gens]
             generations_exp1.append(gens[0])
         with open(f"{task_path_exp1}/references.json") as f:
             # list with one test case inside
@@ -35,6 +36,7 @@ def merge_generations(output_folder, num_tasks):
 
         with open(f"{task_path_exp2}/generations.json") as f:
             gens = json.load(f)
+            gens = [[gen.strip("</s>") for gen in task_gens] for task_gens in gens]
             generations_exp2.append(gens[0])
         with open(f"{task_path_exp2}/references.json") as f:
             refs = json.load(f)
@@ -42,10 +44,13 @@ def merge_generations(output_folder, num_tasks):
                 
         with open(f"{task_path_exp3}/generations.json") as f:
             gens = json.load(f)
+            gens = [[gen.strip("</s>") for gen in task_gens] for task_gens in gens]
             generations_exp3.append(gens[0])
         with open(f"{task_path_exp3}/references.json") as f:
             refs = json.load(f)
             references_exp3.append(refs[0])
+
+
 
     return generations_exp1, references_exp1, generations_exp2, references_exp2, generations_exp3, references_exp3
 
