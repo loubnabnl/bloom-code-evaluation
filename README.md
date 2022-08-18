@@ -57,3 +57,5 @@ pip install datasets transformers
 python run_evaluation.py --HF_ALLOW_CODE_EVAL 1 --output_file bloom --num_tasks 164
 ```
 As a final score we take the best results out of the three experiments of each of the `pass@1`, `pass@10` and `pass@100` scores.
+
+Note: If you are evaluating the existing generations from bloom in this repo, please set `replace_eos=True` in `run_evaluation.py`.
