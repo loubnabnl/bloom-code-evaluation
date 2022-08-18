@@ -44,8 +44,12 @@ def first_block(string):
     return re.split("|".join(EOF_STRINGS), string)[0].rstrip()
 
 
-def complete_code(model, tokenizer, prompt, num_completions=1, **gen_kwargs):
+def complete_code(model, tokenizer, prompt, num_completions=1, prepend_eos=True, **gen_kwargs):
     """Complete prompt with text generation pipeline and return num_completions."""
+    # Add eos to avoid the model hallucinating functions that were defined out of scope
+    if prepend_eos:
+        prompt = tokenizer.eos_token + prompt
+
     tokenized_prompt = tokenizer(prompt, return_tensors="pt")
     tokenized_prompt = {k: v.to("cuda") for k, v in tokenized_prompt.items()}
 
